@@ -16,7 +16,7 @@ export async function getContext(userId) {
     }
 
     const context = await chromium.launchPersistentContext(profilePath, {
-        headless: false,
+        headless: true,
         viewport: { width: 1280, height: 720 },
         args: [
             "--no-sandbox",
