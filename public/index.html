@@ -19,7 +19,7 @@
 
     <script>
         async function startLogin() {
-            const res = await fetch('/tiktok/joao/login/qrcode', {
+            const res = await fetch('http://82.112.245.7:6080/tiktok/joao/login/qrcode', {
                 method: "POST"
             });
             const data = await res.json();
@@ -27,7 +27,7 @@
         }
       
         async function checkStatus() {
-            const res = await fetch('/tiktok/joao/login/status', {
+            const res = await fetch('http://82.112.245.7:6080/tiktok/joao/login/status', {
                 method: "GET"
             });
             const data = await res.json();
