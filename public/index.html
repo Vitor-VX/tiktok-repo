@@ -32,7 +32,7 @@
        
         async function tirarPrint() {
             const res = await fetch('http://82.112.245.7:6080/tiktok/joao/print', {
-                method: "POST"
+                method: "GET"
             });
             const data = await res.json();
             document.getElementById('ver-print').src = data.qrCode;
