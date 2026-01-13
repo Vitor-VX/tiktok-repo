@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiktok</title>
+</head>
+
+<body>
+    <h1>Login TikTok</h1>
+
+    <button onclick="startLogin()">Gerar QR Code</button>
+    <br /><br />
+    <img id="qrcode" />
+    <br /> <br />
+    <button onclick="checkStatus()">Verificar Status</button>
+    <span id="status"></span>
+
+    <script>
+        async function startLogin() {
+            const res = await fetch('/tiktok/joao/login/qrcode', {
+                method: "POST"
+            });
+            const data = await res.json();
+            document.getElementById('qrcode').src = data.qrCode;
+        }
+      
+        async function checkStatus() {
+            const res = await fetch('/tiktok/joao/login/status', {
+                method: "GET"
+            });
+            const data = await res.json();
+            document.getElementById('status').textContent = data.logged ? "Logado com sucesso" : "Não logado";
+        }
+    </script>
+</body>
+
+</html>

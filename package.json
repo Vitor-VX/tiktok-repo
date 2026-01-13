@@ -2,6 +2,7 @@
     "name": "playwright-tiktok-vnc",
     "type": "module",
     "dependencies": {
+        "express": "^5.2.1",
         "playwright": "^1.42.0"
     }
 }
