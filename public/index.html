@@ -16,6 +16,10 @@
     <br /> <br />
     <button onclick="checkStatus()">Verificar Status</button>
     <span id="status"></span>
+    <br /> <br />
+    <button onclick="tirarPrint()">Ver print</button>
+    <img id="ver-print"></img>
+    <br /> <br />
 
     <script>
         async function startLogin() {
@@ -25,7 +29,15 @@
             const data = await res.json();
             document.getElementById('qrcode').src = data.qrCode;
         }
-      
+       
+        async function tirarPrint() {
+            const res = await fetch('http://82.112.245.7:6080/tiktok/joao/print', {
+                method: "POST"
+            });
+            const data = await res.json();
+            document.getElementById('ver-print').src = data.qrCode;
+        }
+
         async function checkStatus() {
             const res = await fetch('http://82.112.245.7:6080/tiktok/joao/login/status', {
                 method: "GET"

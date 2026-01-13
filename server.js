@@ -53,6 +53,21 @@ app.get("/tiktok/:userId/login/status", async (req, res) => {
     }
 });
 
+app.get("/tiktok/:userId/print", async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const context = await getContext(userId);
+        const page = loginPages.get(userId);
+
+        const buffer = await page.screenshot();
+        const base64 = buffer.toString("base64");
+
+        res.json({ qrCode: `data:image/png;base64,${base64}` });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 app.post("/tiktok/:userId/upload", async (req, res) => {
     try {
         const { userId } = req.params;
