@@ -1,4 +1,5 @@
-import { chromium } from "playwright";
+// import { chromium } from "playwright";
+import { connect } from "puppeteer-real-browser";
 import path from "path";
 import fs from "fs";
 
@@ -34,9 +35,11 @@ if (!fs.existsSync(profilePath)) {
 }
 
 (async () => {
-  const context = await chromium.launchPersistentContext(
-    profilePath,
+  const { browser: context } = await connect(
     {
+      customConfig: {
+        userDataDir: profilePath,
+      },
       headless: false,
       viewport: { width: 1280, height: 720 },
       args: [
@@ -64,50 +67,41 @@ if (!fs.existsSync(profilePath)) {
   } else {
     console.log("✅ Usuário autenticado");
 
-    const fileInput = page.locator("input[type=\"file\"][accept=\"video/*\"]");
-    await fileInput.setInputFiles("C:/Users/João/Desktop/tiktok/video.mp4");
-
-    await page.waitForTimeout(8000);
-
-    // localiza o editor Draft.js
-    const editor = page.locator('div[contenteditable="true"]');
-
-    // espera existir e estar visível
-    await editor.first().waitFor({
-      state: 'visible',
-      timeout: 60000
+    await page.goto("https://www.tiktok.com/tiktokstudio/upload", {
+      waitUntil: "domcontentloaded"
     });
 
-    // foca
-    await editor.first().click();
+    const fileInput = await page.locator("input[type=\"file\"][accept=\"video/*\"]").waitHandle();
+    await fileInput.uploadFile("C:/Users/João/Desktop/tiktok/video.mp4");
 
-    // limpa texto
-    await page.keyboard.press('Control+A');
+    await new Promise((res) => setTimeout(res, 8000));
+
+    const editor = await page.locator('div[contenteditable="true"]').waitHandle();
+    await editor.click();
+
+    await page.keyboard.down("Control");
+    await page.keyboard.press("A");
+    await page.keyboard.up("Control");
+
     await page.keyboard.press('Backspace');
 
-    // digita legenda
     await page.keyboard.type(
       'Legenda automática 🚀 #fyp #viral',
       { delay: 40 }
     );
 
-    const publishButton = page.locator('[data-e2e="post_video_button"]');
-
-    // espera botão existir
-    await publishButton.waitFor({ state: 'attached', timeout: 60000 });
-
-    // espera estar realmente habilitado
+    const publishButton = await page.locator('[data-e2e="post_video_button"]').waitHandle();
+    
     await page.waitForFunction(() => {
       const btn = document.querySelector('[data-e2e="post_video_button"]');
       return btn &&
-        btn.getAttribute('aria-disabled') === 'false' &&
-        btn.getAttribute('data-disabled') === 'false' &&
-        btn.getAttribute('data-loading') === 'false';
+        btn.getAttribute("aria-disabled") === "false" &&
+        btn.getAttribute("data-disabled") === "false" &&
+        btn.getAttribute("data-loading") === "false";
     }, { timeout: 60000 });
 
-    // clique humano
     await publishButton.hover();
-    await page.waitForTimeout(200);
+    await new Promise(res => setTimeout(res, 200));
     await publishButton.click({ delay: 150 });
   }
 })();

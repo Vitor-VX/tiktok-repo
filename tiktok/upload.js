@@ -7,27 +7,23 @@ export async function uploadVideo({
 
     await page.goto("https://www.tiktok.com/tiktokstudio/upload");
 
-    const fileInput = await page.waitForSelector('input[type="file"][accept="video/*"]', {
-        visible: true
-    });
-    await fileInput.setInputFiles(videoPath);
+    const fileInput = await page.locator("input[type=\"file\"][accept=\"video/*\"]").waitHandle();
+    await fileInput.uploadFile(videoPath);
 
-    await new Promise(res => setTimeout(res, 8000));
-    const editor = page.waitForSelector('div[contenteditable="true"]', {
-        visible: true
-    });
+    await new Promise((res) => setTimeout(res, 8000));
 
+    const editor = await page.locator('div[contenteditable="true"]').waitHandle();
     await editor.click();
-    await page.keyboard.press("Control+A");
-    await page.keyboard.press("Backspace");
+
+    await page.keyboard.down("Control");
+    await page.keyboard.press("A");
+    await page.keyboard.up("Control");
+
+    await page.keyboard.press('Backspace');
 
     await page.keyboard.type(caption, { delay: 40 });
 
-    const publishButton = page.waitForSelector('[data-e2e="post_video_button"]', {
-         visible: true
-    });
-
-    // await publishButton.waitFor({ state: "attached", timeout: 60000 });
+    const publishButton = await page.locator('[data-e2e="post_video_button"]').waitHandle();
 
     await page.waitForFunction(() => {
         const btn = document.querySelector('[data-e2e="post_video_button"]');
