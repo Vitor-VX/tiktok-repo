@@ -12,7 +12,9 @@ export async function uploadVideo({
     const fileInput = await page.locator("input[type=\"file\"][accept=\"video/*\"]").waitHandle();
     await fileInput.uploadFile(videoPath);
 
-    await new Promise((res) => setTimeout(res, 8000));
+    console.log(videoPath);
+
+    await new Promise((res) => setTimeout(res, 15000));
 
     const editor = await page.locator('div[contenteditable="true"]').waitHandle();
     await editor.click();
