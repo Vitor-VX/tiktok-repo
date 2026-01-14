@@ -26,6 +26,6 @@ COPY . .
 
 EXPOSE 6080
 
-ENTRYPOINT ["entrypoint.sh"]
+ENTRYPOINT ["/app/local/bin/entrypoint.sh"]
 
 CMD ["node", "server.js"]
