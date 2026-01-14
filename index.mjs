@@ -91,7 +91,7 @@ if (!fs.existsSync(profilePath)) {
     );
 
     const publishButton = await page.locator('[data-e2e="post_video_button"]').waitHandle();
-    
+
     await page.waitForFunction(() => {
       const btn = document.querySelector('[data-e2e="post_video_button"]');
       return btn &&
@@ -103,5 +103,12 @@ if (!fs.existsSync(profilePath)) {
     await publishButton.hover();
     await new Promise(res => setTimeout(res, 200));
     await publishButton.click({ delay: 150 });
+
+    await page.locator('button[type="button"][aria-disabled="false"]').waitHandle();
+    await page.evaluate(() => {
+      const buttons = [...document.querySelectorAll('button')];
+      const btn = buttons.find(b => b.innerText.includes('Publicar agora'));
+      if (btn) btn.click();
+    });
   }
 })();

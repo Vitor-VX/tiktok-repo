@@ -39,5 +39,12 @@ export async function uploadVideo({
     await new Promise(res => setTimeout(res, 200));
     await publishButton.click({ delay: 150 });
 
+    await page.locator('button[type="button"][aria-disabled="false"]').waitHandle();
+    await page.evaluate(() => {
+        const buttons = [...document.querySelectorAll('button')];
+        const btn = buttons.find(b => b.innerText.includes('Publicar agora'));
+        if (btn) btn.click();
+    });
+
     return { success: true };
 }
