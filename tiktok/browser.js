@@ -28,10 +28,14 @@ export async function getContext(userId) {
         ]
     });
 
+
+    // page.waitForFunction()
+
     // const canvasHandle = await page.waitForSelector("canvas", {
     //     visible: true
     // });
 
+    // await page.keyboard.
     // canvasHandle.screenshot({ encoding: "base64" })
 
         contexts.set(userId, browser);
