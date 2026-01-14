@@ -1,9 +1,9 @@
 export async function uploadVideo({
-    context,
+    session,
     videoPath,
     caption
 }) {
-    const page = await context.newPage();
+    const { page } = session;
 
     await page.goto("https://www.tiktok.com/tiktokstudio/upload", {
         waitUntil: "domcontentloaded"

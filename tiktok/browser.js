@@ -1,13 +1,12 @@
-// import { chromium } from "playwright";
 import { connect } from "puppeteer-real-browser";
 import path from "path";
 import fs from "fs";
 
-const contexts = new Map();
+const sessions = new Map();
 
 export async function getContext(userId) {
-    if (contexts.has(userId)) {
-        return contexts.get(userId);
+    if (sessions.has(userId)) {
+        return sessions.get(userId);
     }
 
     const profilePath = path.resolve("profiles", userId);
@@ -28,16 +27,8 @@ export async function getContext(userId) {
         ]
     });
 
+    const session = { browser, page };
+    sessions.set(userId, session);
 
-    // page.waitForFunction()
-
-    // const canvasHandle = await page.waitForSelector("canvas", {
-    //     visible: true
-    // });
-
-    // await page.keyboard.
-    // canvasHandle.screenshot({ encoding: "base64" })
-
-        contexts.set(userId, browser);
-    return browser;
+    return sessions;
 };

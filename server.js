@@ -23,15 +23,14 @@ const loginPages = new Map();
 app.post("/tiktok/:userId/login/qrcode", async (req, res) => {
     try {
         const { userId } = req.params;
-        const context = await getContext(userId);
+        const session = await getContext(userId);
 
-        const logged = await isTikTokLogged(context);
+        const logged = await isTikTokLogged(session);
         if (logged) {
             return res.json({ logged: true });
         }
 
-        const { qrCodeBase64, page } = await startTikTokQrLogin(context);
-        loginPages.set(userId, page);
+        const { qrCodeBase64 } = await startTikTokQrLogin(session);
 
         res.json({
             logged: false,
@@ -65,8 +64,7 @@ app.get("/tiktok/:userId/login/status", async (req, res) => {
 app.get("/tiktok/:userId/print", async (req, res) => {
     try {
         const { userId } = req.params;
-        const context = await getContext(userId);
-        const page = loginPages.get(userId);
+        const { page } = await getContext(userId);
 
         const buffer = await page.screenshot({ encoding: "base64" });
         const base64 = buffer.toString("base64");
@@ -88,7 +86,7 @@ app.post("/tiktok/:userId/upload", async (req, res) => {
             });
         }
 
-        const context = await getContext(userId);
+        const session = await getsession(userId);
         const logged = await isTikTokLogged(context);
 
         if (!logged) {
@@ -103,7 +101,7 @@ app.post("/tiktok/:userId/upload", async (req, res) => {
         }
 
         const result = await uploadVideo({
-            context,
+            session,
             videoPath: finalVideoPath,
             caption
         });
