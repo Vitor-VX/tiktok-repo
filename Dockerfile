@@ -2,6 +2,7 @@ FROM mcr.microsoft.com/playwright:v1.57.0-jammy
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/Sao_Paulo
+ENV CHROME_PATH=/ms-playwright/chromium-*/chrome-linux/chrome
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     novnc \
