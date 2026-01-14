@@ -1,4 +1,5 @@
-import { chromium } from "playwright";
+// import { chromium } from "playwright";
+import { connect } from "puppeteer-real-browser";
 import path from "path";
 import fs from "fs";
 
@@ -15,8 +16,11 @@ export async function getContext(userId) {
         fs.mkdirSync(profilePath, { recursive: true });
     }
 
-    const context = await chromium.launchPersistentContext(profilePath, {
-        headless: true,
+    const { browser, page } = await connect({
+        customConfig: {
+            userDataDir: profilePath
+        },
+        headless: false,
         viewport: { width: 1280, height: 720 },
         args: [
             "--no-sandbox",
@@ -24,6 +28,12 @@ export async function getContext(userId) {
         ]
     });
 
-    contexts.set(userId, context);
-    return context;
+    // const canvasHandle = await page.waitForSelector("canvas", {
+    //     visible: true
+    // });
+
+    // canvasHandle.screenshot({ encoding: "base64" })
+
+        contexts.set(userId, browser);
+    return browser;
 };

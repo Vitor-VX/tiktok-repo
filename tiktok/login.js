@@ -5,10 +5,11 @@ export async function startTikTokQrLogin(context) {
         waitUntil: "domcontentloaded"
     });
 
-    const canvas = page.locator("canvas");
-    await canvas.waitFor({ state: "visible", timeout: 30000 });
+    const canvas = await page.waitForSelector("canvas", {
+        visible: true
+    });
 
-    const buffer = await canvas.screenshot();
+    const buffer = await canvas.screenshot({ encoding: "base64" });
     const base64 = buffer.toString("base64");
 
     return {

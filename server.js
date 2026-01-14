@@ -59,7 +59,7 @@ app.get("/tiktok/:userId/print", async (req, res) => {
         const context = await getContext(userId);
         const page = loginPages.get(userId);
 
-        const buffer = await page.screenshot();
+        const buffer = await page.screenshot({ encoding: "base64" });
         const base64 = buffer.toString("base64");
 
         res.json({ qrCode: `data:image/png;base64,${base64}` });
