@@ -8,6 +8,13 @@ import { startTikTokQrLogin } from "./tiktok/login.js";
 const app = express();
 app.use(express.static(path.resolve("public")));
 app.use(express.json());
+app.use(express.json({
+    limit: "500mb"
+}));
+app.use(express.urlencoded({
+    limit: "500mb",
+    extended: true
+}));
 
 const loginPages = new Map();
 
