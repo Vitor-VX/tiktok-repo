@@ -1,18 +1,16 @@
-FROM mcr.microsoft.com/playwright:v1.57.0-jammy
+FROM node:latest
 
-ENV DEBIAN_FRONTEND=noninteractive
-ENV TZ=America/Sao_Paulo
-ENV CHROME_PATH=/ms-playwright/chromium-*/chrome-linux/chrome
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    novnc \
-    websockify \
-    x11vnc \
+RUN apt-get update && apt-get install -y \
+    wget \
+    gnupg \
+    ca-certificates \
+    apt-transport-https \
+    chromium \
+    chromium-driver \
     xvfb \
-    fluxbox \
-    ffmpeg \
-    tzdata \
     && rm -rf /var/lib/apt/lists/*
+
+ENV CHROME_BIN=/usr/bin/chromium
 
 WORKDIR /app
 
