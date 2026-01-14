@@ -37,6 +37,8 @@ export async function uploadVideo({
             btn.getAttribute("data-loading") === "false";
     }, { timeout: 60000 });
 
+    await new Promise((res) => setTimeout(res, 10000));
+
     await publishButton.hover();
     await new Promise(res => setTimeout(res, 200));
     await publishButton.click({ delay: 150 });
