@@ -14,6 +14,8 @@ ENV CHROME_BIN=/usr/bin/chromium
 
 WORKDIR /app
 
+RUN mkdir -p /app/profiles && chown -R node:node /app/profiles
+
 COPY package*.json ./
 RUN npm install
 
