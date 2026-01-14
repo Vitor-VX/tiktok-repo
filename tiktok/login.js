@@ -7,7 +7,7 @@ export async function startTikTokQrLogin(session) {
 
     const canvas = await page.waitForSelector("canvas", { visible: true });
 
-    const buffer = await canvas.screenshot();
+    const buffer = await canvas.screenshot({ encoding: "base64" });
     const base64 = buffer.toString("base64");
 
     return {
