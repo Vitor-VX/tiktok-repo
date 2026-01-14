@@ -112,10 +112,12 @@ app.post("/tiktok/:userId/upload", async (req, res) => {
 
         res.json(result);
     } catch (err) {
+        console.log(err);
+        
         res.status(500).json({ error: err.message });
     }
 });
 
 app.listen(6080, () => {
-    console.log("🚀 API TikTok rodando na porta 6080");
+    console.log("🚀 API TikTok rodando na porta 6080!");
 });

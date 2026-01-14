@@ -5,7 +5,9 @@ export async function uploadVideo({
 }) {
     const page = await context.newPage();
 
-    await page.goto("https://www.tiktok.com/tiktokstudio/upload");
+    await page.goto("https://www.tiktok.com/tiktokstudio/upload", {
+        waitUntil: "domcontentloaded"
+    });
 
     const fileInput = await page.locator("input[type=\"file\"][accept=\"video/*\"]").waitHandle();
     await fileInput.uploadFile(videoPath);
