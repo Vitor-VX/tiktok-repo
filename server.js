@@ -1,5 +1,6 @@
 import express from "express";
 import path from "path";
+import fs from "fs";
 import { getContext } from "./tiktok/browser.js";
 import { isTikTokLogged } from "./tiktok/auth.js";
 import { uploadVideo } from "./tiktok/upload.js";
