@@ -65,10 +65,10 @@ export async function getFollowers(session, xBogus, maxTime = 0) {
         }));
 }
 
-export function waitForXBogus(session) {
+export async function waitForXBogus(session) {
     const { page } = session;
 
-    return new Promise(resolve => {
+    return new Promise(async (resolve) => {
         const handler = req => {
             const url = req.url();
             if (url.includes("/api/notice/multi")) {
@@ -80,6 +80,12 @@ export function waitForXBogus(session) {
                 }
             }
         };
+
         page.on("request", handler);
+
+        await page.goto("https://www.tiktok.com", {
+            waitUntil: "networkidle",
+            timeout: 60000
+        });
     });
 }
