@@ -71,7 +71,13 @@ app.get("/tiktok/:userId/print", async (req, res) => {
 app.post("/tiktok/:userId/upload", async (req, res) => {
     try {
         const { userId } = req.params;
-        const { videoPath, caption } = req.body;
+        const { videoPath, videoBase64, caption } = req.body;
+
+        if (!videoPath && !videoBase64) {
+            return res.status(400).json({
+                error: "Informe videoPath ou videoBase64"
+            });
+        }
 
         const context = await getContext(userId);
         const logged = await isTikTokLogged(context);
@@ -82,11 +88,20 @@ app.post("/tiktok/:userId/upload", async (req, res) => {
             });
         }
 
+        let finalVideoPath = videoPath;
+        if (videoBase64) {
+            finalVideoPath = saveBase64Video(videoBase64, userId);
+        }
+
         const result = await uploadVideo({
             context,
-            videoPath,
+            videoPath: finalVideoPath,
             caption
         });
+
+        if (videoBase64 && fs.existsSync(finalVideoPath)) {
+            fs.unlinkSync(finalVideoPath);
+        }
 
         res.json(result);
     } catch (err) {
