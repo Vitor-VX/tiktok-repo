@@ -1,7 +1,7 @@
 export async function isTikTokLogged(session) {
-    const { browser, page } = session;
+    const { page } = session;
 
-    const cookies = await browser.cookies("https://www.tiktok.com");
+    const cookies = await page.cookies("https://www.tiktok.com");
 
     const hasSession = cookies.some(c =>
         ["sessionid", "sessionid_ss", "sid_tt"].includes(c.name)

@@ -86,8 +86,8 @@ app.post("/tiktok/:userId/upload", async (req, res) => {
             });
         }
 
-        const session = await getsession(userId);
-        const logged = await isTikTokLogged(context);
+        const session = await getContext(userId);
+        const logged = await isTikTokLogged(session);
 
         if (!logged) {
             return res.status(401).json({

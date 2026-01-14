@@ -26,7 +26,7 @@ export async function getContext(userId) {
             "--disable-blink-features=AutomationControlled"
         ]
     });
-
+    
     const session = { browser, page };
     sessions.set(userId, session);
 
