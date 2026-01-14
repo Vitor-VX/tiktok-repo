@@ -14,6 +14,9 @@ ENV CHROME_BIN=/usr/bin/chromium
 
 WORKDIR /app
 
+COPY entrypoint.sh /app/local/bin/
+RUN chmod +x /app/local/bin/entrypoint.sh
+
 RUN mkdir -p /app/profiles && chown -R node:node /app/profiles
 
 COPY package*.json ./
@@ -21,7 +24,8 @@ RUN npm install
 
 COPY . .
 
-RUN chmod +x start.sh
-
 EXPOSE 6080
+
+ENTRYPOINT ["entrypoint.sh"]
+
 CMD ["node", "server.js"]
