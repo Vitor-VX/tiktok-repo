@@ -84,7 +84,7 @@ export async function waitForXBogus(session) {
         page.on("request", handler);
 
         await page.goto("https://www.tiktok.com", {
-            waitUntil: "networkidle",
+            waitUntil: "domcontentloaded",
             timeout: 60000
         });
     });
