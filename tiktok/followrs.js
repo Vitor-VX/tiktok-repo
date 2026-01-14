@@ -25,7 +25,7 @@ function buildFollowersUrl({ msToken, verifyFp, xBogus, maxTime = 0 }) {
         `&X-Bogus=${xBogus}`;
 }
 
-async function getFollowers(session, xBogus, maxTime = 0) {
+export async function getFollowers(session, xBogus, maxTime = 0) {
     const { page } = session;
 
     const cookies = await page.cookies();
@@ -65,7 +65,7 @@ async function getFollowers(session, xBogus, maxTime = 0) {
         }));
 }
 
-function waitForXBogus(session) {
+export function waitForXBogus(session) {
     const { page } = session;
 
     return new Promise(resolve => {

@@ -6,6 +6,7 @@ import { isTikTokLogged } from "./tiktok/auth.js";
 import { uploadVideo } from "./tiktok/upload.js";
 import { startTikTokQrLogin } from "./tiktok/login.js";
 import { saveBase64Video } from "./utils/base64Video.js";
+import { getFollowers, waitForXBogus } from "./tiktok/followrs.js";
 
 const app = express();
 app.use(express.static(path.resolve("public")));
