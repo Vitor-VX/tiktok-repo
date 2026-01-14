@@ -14,7 +14,5 @@ export async function isTikTokLogged(session) {
     });
 
     const logged = !page.url().includes("login");
-    await page.close();
-
     return logged;
 };
