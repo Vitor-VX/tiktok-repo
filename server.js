@@ -4,6 +4,7 @@ import { getContext } from "./tiktok/browser.js";
 import { isTikTokLogged } from "./tiktok/auth.js";
 import { uploadVideo } from "./tiktok/upload.js";
 import { startTikTokQrLogin } from "./tiktok/login.js";
+import { saveBase64Video } from "./utils/base64Video.js";
 
 const app = express();
 app.use(express.static(path.resolve("public")));
