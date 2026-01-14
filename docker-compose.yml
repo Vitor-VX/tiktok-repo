@@ -6,7 +6,7 @@ services:
     volumes:
       - profiles-data:/app/profiles
     ports:
-      - "3000:3000"
+      - "6080:6080"
     environment:
       - TZ=America/Sao_Paulo
     stdin_open: true
