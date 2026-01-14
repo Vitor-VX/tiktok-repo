@@ -75,6 +75,28 @@ app.get("/tiktok/:userId/print", async (req, res) => {
     }
 });
 
+app.get("/tiktok/:userId/followrs", async (req, res) => {
+    try {
+        const { userId } = req.params;
+
+        const session = await getContext(userId);
+        const logged = await isTikTokLogged(session);
+
+        if (!logged) {
+            return res.status(401).json({
+                error: "Usuário não autenticado no TikTok"
+            });
+        }
+
+        const xBogus = await waitForXBogus(session);
+        const followers = await getFollowers(session, xBogus);
+
+        res.json(followers);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 app.post("/tiktok/:userId/upload", async (req, res) => {
     try {
         const { userId } = req.params;
@@ -113,7 +135,7 @@ app.post("/tiktok/:userId/upload", async (req, res) => {
         res.json(result);
     } catch (err) {
         console.log(err);
-        
+
         res.status(500).json({ error: err.message });
     }
 });

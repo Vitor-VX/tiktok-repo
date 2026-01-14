@@ -1,0 +1,17 @@
+services:
+  tiktok-bot:
+    build: .
+    container_name: tiktok-bot
+    restart: unless-stopped
+    volumes:
+      - profiles-data:/app/profiles
+    ports:
+      - "3000:3000"
+    environment:
+      - TZ=America/Sao_Paulo
+    stdin_open: true
+    tty: true
+
+volumes:
+  profiles-data:
+    name: profiles-data
