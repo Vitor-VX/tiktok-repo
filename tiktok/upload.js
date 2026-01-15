@@ -48,7 +48,7 @@ export async function uploadVideo({
     await page.locator('button[type="button"][aria-disabled="false"]').waitHandle();
     await page.evaluate(() => {
         const buttons = [...document.querySelectorAll('button')];
-        const btn = buttons.find(b => b.innerText.includes('Publicar agora'));
+        const btn = buttons.find(b => b.innerText.includes('Publicar agora') || b.innerText.includes('Post now'));
         if (btn) btn.click();
     });
 
