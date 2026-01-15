@@ -43,6 +43,8 @@ export async function uploadVideo({
     await new Promise(res => setTimeout(res, 200));
     await publishButton.click({ delay: 150 });
 
+    await new Promise(res => setTimeout(res, 2000));
+
     await page.locator('button[type="button"][aria-disabled="false"]').waitHandle();
     await page.evaluate(() => {
         const buttons = [...document.querySelectorAll('button')];
